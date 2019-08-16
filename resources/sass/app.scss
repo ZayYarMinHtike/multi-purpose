@@ -12,3 +12,13 @@ $fa-font-path: "../webfonts";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
+
+
+.router-link-exact-active {
+    background-color:  #a959e3;
+    color: white !important;
+}
+
+.router-link-active:hover {
+    background-color: #8f48b0 !important;
+}
