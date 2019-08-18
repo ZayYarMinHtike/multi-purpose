@@ -9,6 +9,9 @@ use Hash;
 
 class UserController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth:api');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -44,6 +47,30 @@ class UserController extends Controller
             'password' => Hash::make($request['password'])
         ]);
     }
+
+
+
+    public function profile()
+    {
+        return auth('api')->user();
+    }
+
+    public function updateProfile(Request $request)
+    {
+       $user = auth('api')->user();
+        
+        if ($request->photo) {
+
+            //double explode the string factors and reposition from ; to 0 position
+            $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos(
+                $request->photo, ';')))[1])[1];
+
+            // Image is image-intervation clause    
+            \Image::make($request->photo)->save(public_path('img/profile/').$name);
+
+        };
+    }
+
 
     /**
      * Display the specified resource.
