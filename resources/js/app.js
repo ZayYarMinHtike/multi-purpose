@@ -7,8 +7,15 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-
 Vue.use(VueRouter)
+
+//using vueform
+import { Form, HasError, AlertError } from 'vform'
+window.Form = Form;
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
+
+
 import VueRouter from 'vue-router'
 import Dashboard from './components/Dashboard.vue'
 import Profile from './components/Profile.vue'
@@ -17,20 +24,57 @@ import Users from './components/Users.vue'
 
 
 let routes = [
-    { path: '/dashboard', component: Dashboard },
-    { path: '/profile', component: Profile },
-    { path: '/users', component: Users }
+    { path: '/dashboard',
+     component: Dashboard 
+    },
+    { path: '/profile',
+     component: Profile 
+    },
+    { path: '/users',
+     component: Users 
+    }
 ]
 
+//using sweet-alerts2
+import Swal from 'sweetalert2'
+window.Swal = Swal;
 
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+})
+window.Toast = Toast;
 
 
 const router = new VueRouter({
     mode: 'history',
-    routes // short for `routes: routes`
+    routes
 })
 
+//using vue filters
+Vue.filter('upText', function (text) {
+    return text.charAt(0).toUpperCase() + text.slice(1)
+})
 
+//using moment.js for date-time
+import Moment from 'moment'
+Vue.filter('myDate', function (date) {
+    return Moment(date).format("MMM Do YYYY")
+})
+
+//using vue progress-bar
+import VueProgressBar from 'vue-progressbar'
+
+Vue.use(VueProgressBar, {
+  color: 'rgb(143, 255, 199)',
+  failedColor: 'red',
+  height: '3px'
+})
+
+//why created this? I might use "component-communication" later in my app
+window.Fire = new Vue();
 
 /**
 * The following block of code may be used to automatically register your
