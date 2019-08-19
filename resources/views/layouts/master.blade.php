@@ -67,8 +67,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+          <!-- use .nav-icon class for icons -->
           <li class="nav-item">
             <router-link to="/dashboard" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt blue"></i>
@@ -76,6 +75,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 Dashboard
               </p>
             </router-link>
+          </li>
+          <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-home nav-icon pink"></i>
+                   <p>Home</p> 
+                </a>
           </li>
           <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
@@ -93,6 +98,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </router-link>
               </li>
             </ul>
+          </li>
+          <li class="nav-item">
+                <router-link to="/posts" class="nav-link">
+                  <i class="fas fa-blog nav-icon cyan"></i>
+                  <p>Blog</p>
+                </router-link>
           </li>
           <li class="nav-item">
                 <router-link to="/profile" class="nav-link">

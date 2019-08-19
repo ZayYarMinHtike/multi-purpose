@@ -48,7 +48,7 @@ class UserController extends Controller
         ]);
     }
 
-
+    //custom api controller functions which use custom routes
 
     public function profile()
     {
@@ -57,18 +57,34 @@ class UserController extends Controller
 
     public function updateProfile(Request $request)
     {
-       $user = auth('api')->user();
+            $user = auth('api')->user();
+
+            $this->validate($request, [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
+                'password' => 'sometimes|required|min:6',
+                'type' => 'sometimes|required'
+            ]);
+
+            $currentPhoto = $user->photo;
         
-        if ($request->photo) {
+            if ($request->photo != $currentPhoto) {
 
-            //double explode the string factors and reposition from ; to 0 position
-            $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos(
-                $request->photo, ';')))[1])[1];
+                    //double explode the string factors and reposition from ; to 0 position
+                    $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos(
+                        $request->photo, ';')))[1])[1];
 
-            // Image is image-intervation clause    
-            \Image::make($request->photo)->save(public_path('img/profile/').$name);
+                    // Image is image-intervation clause    
+                    \Image::make($request->photo)->save(storage_path('app/public/images/profile-uploads/').$name);
+                    $request->merge(['photo' => $name]);
+            }
 
-        };
+            if(!empty($request->password)){
+                    $request->merge(['password' => Hash::make($request['password'])]);
+            }
+
+            $user->update($request->all());
+            return ['message' => "Success"];
     }
 
 
@@ -97,9 +113,13 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'password' => 'sometimes|min:6',
-            'type' => 'sometimes'
+            'password' => 'sometimes|required|min:6',
+            'type' => 'sometimes|required'
         ]);
+
+        if(!empty($request->password)){
+            $request->merge(['password' => Hash::make($request['password'])]);
+        }
 
         $user->update($request->all());
     }

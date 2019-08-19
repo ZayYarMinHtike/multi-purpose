@@ -20,6 +20,7 @@ import VueRouter from 'vue-router'
 import Dashboard from './components/Dashboard.vue'
 import Profile from './components/Profile.vue'
 import Users from './components/Users.vue'
+import Posts from './components/Posts.vue'
 
 
 
@@ -32,6 +33,9 @@ let routes = [
     },
     { path: '/users',
      component: Users 
+    },
+    { path: '/posts',
+     component: Posts 
     }
 ]
 
@@ -75,6 +79,11 @@ Vue.use(VueProgressBar, {
 
 //why created this? I might use "component-communication" later in my app
 window.Fire = new Vue();
+
+//vee validate
+import VeeValidate from 'vee-validate';
+
+Vue.use(VeeValidate);
 
 /**
 * The following block of code may be used to automatically register your

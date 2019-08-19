@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-                 <div class="col-md-6">
+                 <div class="col-md-8">
                          <div class="card card-primary card-outline mt-5">
                             <div class="card-body box-profile">
                                 <div class="text-center">
@@ -21,9 +21,8 @@
                                       </li>
                                     </ul>
                     
-                                    <div class="card-footer d-flex justify-content-center">
-                                      <button type="submit" class="btn btn-success mr-1" data-toggle="modal" data-target="#profileModal">Update Profile</button>
-                                      <button type="submit" class="btn btn-danger ml-1">Reset Password</button>
+                                    <div class="footer">
+                                      <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#profileModal">Update Profile</button>
                                     </div>                      
                                   </div>
                                   <!-- /.card-body -->                              
@@ -72,7 +71,7 @@
                  
                                      <div class="form-group">
                                          <input v-model="form.password" type="password" name="password" id="password"
-                                         class="form-control" placeholder="Enter Password" :class="{ 'is-invalid': form.errors.has('password') }">
+                                         class="form-control" placeholder="Update Password (Optional)" :class="{ 'is-invalid': form.errors.has('password') }">
                                          <has-error :form="form" field="password"></has-error>
                                      </div>                 
                                   </div> <!-- /.modal-body-->
@@ -115,11 +114,13 @@ export default {
             },
 
             updateInfo() {
-                this.form.patch('api/profile').then(() => {
-
+                this.$Progress.start();
+                this.form.patch('api/profile')
+                .then(() => {
+                    this.$Progress.finish();
                 })
                 .catch(() => {
-
+                    this.$Progress.fail();
                 });
             },
 
@@ -130,19 +131,21 @@ export default {
                 let reader = new FileReader();
 
                 // let limit = 1024 * 1024 * 2;
-                // if(file['size'] > limit){
-                //     swal({
-                //         type: 'error',
-                //         title: 'Oops...',
-                //         text: 'You are uploading a large file',
-                //     })
-                //     return false;
-                // }
+                if(file['size'] < 2111775){
 
-                reader.onloadend = (file) => {
-                    this.form.photo = reader.result;
+                   reader.onloadend = (file) => {
+                      this.form.photo = reader.result;
+                   }
+                   reader.readAsDataURL(file);
+                    
+    
+                }else{
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'You are uploading a large file',
+                    })
                 }
-                reader.readAsDataURL(file);
             }
         },
         created() {

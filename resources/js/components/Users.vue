@@ -98,10 +98,11 @@
                     </div>
 
                     <div class="form-group">
-                        <input v-model="form.password" type="password" name="password" id="password"
+                        <input v-model="form.password" type="password"  name="password" id="password"
                         class="form-control" placeholder="Enter Password" :class="{ 'is-invalid': form.errors.has('password') }">
                         <has-error :form="form" field="password"></has-error>
                     </div>
+              
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -142,12 +143,14 @@
               this.form.reset();
               $('#AddnewModal').modal('show');
             },
+
             updateModal(user) {
               this.editmode = true;
               this.form.reset();
               $('#AddnewModal').modal('show');
               this.form.fill(user);
             },
+            
             //create
             createUser() {
               this.$Progress.start();
@@ -166,7 +169,7 @@
                  this.$Progress.finish();
               })
               .catch(() => {
-                
+                  this.$Progress.fail();
               });
               
             },
@@ -187,7 +190,7 @@
                     Fire.$emit('hasEvent'); 
                  })
                  .catch(() => {
-                   this.$Progress.failed();
+                   this.$Progress.fail();
                  });
             },
 
