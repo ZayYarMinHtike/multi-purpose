@@ -5,7 +5,7 @@
                          <div class="card card-primary card-outline mt-5">
                             <div class="card-body box-profile">
                                 <div class="text-center">
-                                      <img class="profile-user-img img-fluid img-circle" src="/storage/images/profile-img/profile.png" alt="User profile picture">
+                                      <img class="profile-user-img img-fluid img-circle" :src="getprofilePic()" alt="User profile picture">
                                 </div>
                     
                                     <h3 class="profile-username text-center">{{ form.name }}</h3>
@@ -62,11 +62,13 @@
                                      </div>
                  
                                      <div class="form-group">
-                                        <label for="photo" class="control-label">Profile Photo</label>
+                                        <img class="img-fluid img-circle img-md" :src="getprofilePic()" alt="profile-img">
+                                        <div class="img-push">
+                                          <label for="photo" class="control-label">Profile Photo</label>                          
                                           <div>
                                             <input type="file" @change="updateProfile" name="photo" class="form-input">
                                           </div>
-
+                                        </div>
                                      </div>
                  
                                      <div class="form-group">
@@ -108,7 +110,12 @@ export default {
           }
         },
         methods: {
-            loadUsers() {
+            getprofilePic() {
+                  let photo = (this.form.photo.length > 200) ? this.form.photo : "storage/images/profile-uploads/"+ this.form.photo ;
+                  return photo;
+            },
+            
+            loadUser() {
               axios.get('api/profile')
               .then(({ data }) => (this.form.fill(data)));
             },
@@ -118,27 +125,29 @@ export default {
                 this.form.patch('api/profile')
                 .then(() => {
                     this.$Progress.finish();
+                    $('#profileModal').modal('hide');
+
+                     Toast.fire({
+                       type: 'success',
+                       title: 'Profile has beed successfully updated!!'
+                    })
                 })
                 .catch(() => {
                     this.$Progress.fail();
                 });
+                Fire.$emit('hasEvent');
             },
 
             updateProfile(e){
-
                 //base 64 method
                 let file = e.target.files[0];
                 let reader = new FileReader();
-
                 // let limit = 1024 * 1024 * 2;
                 if(file['size'] < 2111775){
-
                    reader.onloadend = (file) => {
                       this.form.photo = reader.result;
                    }
                    reader.readAsDataURL(file);
-                    
-    
                 }else{
                     Swal.fire({
                         type: 'error',
@@ -149,11 +158,11 @@ export default {
             }
         },
         created() {
-            this.loadUsers();
+            this.loadUser();
             //listen custom event
-            // Fire.$on('hasEvent', () => {
-            //   this.loadUsers();
-            // })
+            Fire.$on('hasEvent', () => {
+              this.loadUser();
+            })
         }
 }
 </script>

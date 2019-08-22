@@ -10,7 +10,9 @@ use Hash;
 class UserController extends Controller
 {
     public function __construct() {
+
         $this->middleware('auth:api');
+        
     }
     /**
      * Display a listing of the resource.
@@ -77,6 +79,11 @@ class UserController extends Controller
                     // Image is image-intervation clause    
                     \Image::make($request->photo)->save(storage_path('app/public/images/profile-uploads/').$name);
                     $request->merge(['photo' => $name]);
+
+                    $oldPhoto = storage_path('app/public/images/profile-uploads/').$currentPhoto;
+                    if(file_exists($oldPhoto)) {
+                        @unlink($oldPhoto);
+                    }
             }
 
             if(!empty($request->password)){

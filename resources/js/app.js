@@ -9,35 +9,48 @@ require('./bootstrap');
 window.Vue = require('vue');
 Vue.use(VueRouter)
 
+
+
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Dashboard from './components/Dashboard.vue'
+import Profile from './components/Profile.vue'
+import Users from './components/Users.vue'
+import Blog from './components/Blog.vue'
+import Comments from './components/Comments.vue'
+
+
+
+let routes = [
+
+    { path: '/dashboard',
+     component: Dashboard 
+    },
+
+    { path: '/profile',
+     component: Profile 
+    },
+
+    { path: '/users',
+     component: Users 
+    },
+    
+    { path: '/blog',
+      component: Blog,
+    },
+]
+
+const router = new VueRouter({
+    mode: 'history',
+    routes
+})
+
+
 //using vueform
 import { Form, HasError, AlertError } from 'vform'
 window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
-
-
-import VueRouter from 'vue-router'
-import Dashboard from './components/Dashboard.vue'
-import Profile from './components/Profile.vue'
-import Users from './components/Users.vue'
-import Posts from './components/Posts.vue'
-
-
-
-let routes = [
-    { path: '/dashboard',
-     component: Dashboard 
-    },
-    { path: '/profile',
-     component: Profile 
-    },
-    { path: '/users',
-     component: Users 
-    },
-    { path: '/posts',
-     component: Posts 
-    }
-]
 
 //using sweet-alerts2
 import Swal from 'sweetalert2'
@@ -52,10 +65,7 @@ const Toast = Swal.mixin({
 window.Toast = Toast;
 
 
-const router = new VueRouter({
-    mode: 'history',
-    routes
-})
+
 
 //using vue filters
 Vue.filter('upText', function (text) {
@@ -120,5 +130,6 @@ Vue.component(
 */
 
 const app = new Vue({
-    router
+    router,
+    components: { Comments },
 }).$mount('#app');

@@ -47,7 +47,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="/storage/images/logo-pro/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+      <img src="/storage/images/logo-pro/browser.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">Multi-P App</span>
     </a>
@@ -57,7 +57,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="/storage/images/logo-pro/profile.png" class="img-circle elevation-2" alt="User Image">
+          <img src="{{'/storage/images/profile-uploads/' . auth()->user()->photo }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">{{ Auth::user()->name }}</a>
@@ -75,12 +75,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 Dashboard
               </p>
             </router-link>
-          </li>
-          <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-home nav-icon pink"></i>
-                   <p>Home</p> 
-                </a>
           </li>
           <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
@@ -100,7 +94,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li>
           <li class="nav-item">
-                <router-link to="/posts" class="nav-link">
+                <router-link to="/blog" class="nav-link">
                   <i class="fas fa-blog nav-icon cyan"></i>
                   <p>Blog</p>
                 </router-link>
@@ -110,6 +104,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <i class="fas fa-user nav-icon orange"></i>
                   <p>Profile</p>
                 </router-link>
+          </li>
+          <li class="nav-item">
+                <a class="nav-link" href="/posts">
+                    <i class="fas fa-home nav-icon pink"></i>
+                   <p>Home</p> 
+                </a>
           </li>
           <li class="nav-item">
                 <a class="nav-link" href="{{ route('logout') }}"
