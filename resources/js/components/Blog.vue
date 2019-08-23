@@ -1,7 +1,7 @@
 <template>
     <div class="container">
       <div class="row">
-        <div class="col-md-12 mt-5">
+        <div class="col-md-12 mt-5" v-if="$gate.isAdminOrMember()">
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Post List</h3>
@@ -251,7 +251,10 @@
 
             //load
             loadPosts() {
-              axios.get('api/post').then(({ data }) => (this.posts = data.data));
+              if(this.$gate.isAdminOrMember()) {
+                axios.get('api/post').then(({ data }) => (this.posts = data.data));
+              }
+              
             },
 
             //delete

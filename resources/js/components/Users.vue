@@ -1,7 +1,7 @@
 <template>
     <div class="container">
       <div class="row">
-        <div class="col-md-12 mt-5">
+        <div class="col-md-12 mt-5" v-if="$gate.isAdmin()">
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Users List</h3>
@@ -91,16 +91,19 @@
                         <select name="type" v-model="form.type" id="type" class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
                             <option value="">Select User Role</option>
                             <option value="admin">Admin</option>
-                            <option value="user">Standard User</option>
-                            <option value="author">Author</option>
+                            <option value="user">Free User</option>
+                            <option value="member">Premium User</option>
                         </select>
                         <has-error :form="form" field="type"></has-error>
                     </div>
 
                     <div class="form-group">
-                        <input v-model="form.password" type="password"  name="password" id="password"
-                        class="form-control" placeholder="Enter Password" :class="{ 'is-invalid': form.errors.has('password') }">
+                        <input type="password"  name="password" id="password"
+                        class="form-control mb-3" placeholder="Enter Password" :class="{ 'is-invalid': form.errors.has('password') }">
                         <has-error :form="form" field="password"></has-error>
+                        <input v-model="form.password" type="password"  name="confirm_password" id="confirm_password"
+                        class="form-control" placeholder="Confirm Password" :class="{ 'is-invalid': form.errors.has('confirm_password') }">
+                        <has-error :form="form" field="confirm_password"></has-error>
                     </div>
               
               </div>
@@ -196,7 +199,9 @@
 
             //load
             loadUsers() {
-              axios.get('api/user').then(({ data }) => (this.users = data.data));
+              if(this.$gate.isAdmin) {
+                  axios.get('api/user').then(({ data }) => (this.users = data.data));
+              }   
             },
 
             //delete

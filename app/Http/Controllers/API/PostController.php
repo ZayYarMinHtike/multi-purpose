@@ -36,7 +36,7 @@ class PostController extends Controller
         $this->validate($request, [
             'title' => 'required|string|max:255',
             'body' => 'required|string',
-            'image' => 'sometimes|mimes:jpeg,png,jpg,gif,svg',
+            'image' => 'sometimes',
         ]);
 
         $post = new Post;
@@ -120,6 +120,7 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
 
+        $post->comments()->delete();
         $post->delete();
     }
 }

@@ -52,6 +52,10 @@ window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
+//custome Gate for ACL
+import Gate from './Gate';
+Vue.prototype.$gate = new Gate(window.user);
+
 //using sweet-alerts2
 import Swal from 'sweetalert2'
 window.Swal = Swal;

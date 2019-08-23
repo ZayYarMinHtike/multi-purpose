@@ -55,9 +55,16 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @if(auth()->user()->type != 'user')
                                     <a class="dropdown-item" href="/blog">
                                         {{ __('My Blog') }}
                                     </a>
+                                    @endif
+                                    @if(auth()->user()->type == 'user')
+                                    <a class="dropdown-item" href="/profile">
+                                        {{ __('My Profile') }}
+                                    </a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

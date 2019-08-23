@@ -57,7 +57,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{'/storage/images/profile-uploads/' . auth()->user()->photo }}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{!! !empty(auth()->user()->photo) ?'/storage/images/profile-uploads/' . auth()->user()->photo : '/storage/images/dummy/dummy-profile.png' }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">{{ Auth::user()->name }}</a>
@@ -68,6 +68,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- use .nav-icon class for icons -->
+          @can('isAdmin')
           <li class="nav-item">
             <router-link to="/dashboard" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt blue"></i>
@@ -93,12 +94,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
+          @endcan
+          @canany(['isAdmin', 'isMember'])
           <li class="nav-item">
                 <router-link to="/blog" class="nav-link">
                   <i class="fas fa-blog nav-icon cyan"></i>
                   <p>Blog</p>
                 </router-link>
           </li>
+          @endcanany
           <li class="nav-item">
                 <router-link to="/profile" class="nav-link">
                   <i class="fas fa-user nav-icon orange"></i>
@@ -160,6 +164,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </footer>
 </div>
 <!-- ./wrapper -->
+@auth
+<script>
+    window.user = @json(auth()->user())
+</script>
+@endauth
 
 <!-- REQUIRED SCRIPTS -->
 <script src="{{ asset('js/app.js') }}" defer></script>

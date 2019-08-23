@@ -114,6 +114,7 @@ export default {
                   let photo = (this.form.photo.length > 200) ? this.form.photo : "storage/images/profile-uploads/"+ this.form.photo ;
                   return photo;
             },
+
             
             loadUser() {
               axios.get('api/profile')

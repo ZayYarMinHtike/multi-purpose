@@ -1962,10 +1962,12 @@ __webpack_require__.r(__webpack_exports__);
     loadPosts: function loadPosts() {
       var _this4 = this;
 
-      axios.get('api/post').then(function (_ref) {
-        var data = _ref.data;
-        return _this4.posts = data.data;
-      });
+      if (this.$gate.isAdminOrMember()) {
+        axios.get('api/post').then(function (_ref) {
+          var data = _ref.data;
+          return _this4.posts = data.data;
+        });
+      }
     },
     //delete
     deletePost: function deletePost(id) {
@@ -2493,6 +2495,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2564,10 +2569,12 @@ __webpack_require__.r(__webpack_exports__);
     loadUsers: function loadUsers() {
       var _this3 = this;
 
-      axios.get('api/user').then(function (_ref) {
-        var data = _ref.data;
-        return _this3.users = data.data;
-      });
+      if (this.$gate.isAdmin) {
+        axios.get('api/user').then(function (_ref) {
+          var data = _ref.data;
+          return _this3.users = data.data;
+        });
+      }
     },
     //delete
     deleteUser: function deleteUser(id) {
@@ -82319,79 +82326,81 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12 mt-5" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _c("h3", { staticClass: "card-title" }, [_vm._v("Post List")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-tools" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-success",
-                  on: { click: _vm.createModal }
-                },
-                [
-                  _vm._v(" Add New\n                "),
-                  _c("i", { staticClass: "fas fa-id-card fa-fw" })
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body table-responsive p-0" }, [
-            _c("table", { staticClass: "table table-hover" }, [
-              _vm._m(0),
+      _vm.$gate.isAdminOrMember()
+        ? _c("div", { staticClass: "col-md-12 mt-5" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h3", { staticClass: "card-title" }, [_vm._v("Post List")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-tools" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: { click: _vm.createModal }
+                    },
+                    [
+                      _vm._v(" Add New\n                "),
+                      _c("i", { staticClass: "fas fa-id-card fa-fw" })
+                    ]
+                  )
+                ])
+              ]),
               _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.posts, function(post) {
-                  return _c("tr", { key: post.id }, [
-                    _c("td", [_vm._v(_vm._s(post.id))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(post.title))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(_vm._s(_vm._f("myDate")(post.created_at)))
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "a",
-                        {
-                          attrs: { href: "#" },
-                          on: {
-                            click: function($event) {
-                              return _vm.updateModal(post)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-edit blue fa-fw" })]
-                      ),
-                      _vm._v(
-                        "\n                      /\n                      "
-                      ),
-                      _c(
-                        "a",
-                        {
-                          attrs: { href: "#" },
-                          on: {
-                            click: function($event) {
-                              return _vm.deletePost(post.id)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-trash red fa-fw" })]
-                      )
-                    ])
-                  ])
-                }),
-                0
-              )
+              _c("div", { staticClass: "card-body table-responsive p-0" }, [
+                _c("table", { staticClass: "table table-hover" }, [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.posts, function(post) {
+                      return _c("tr", { key: post.id }, [
+                        _c("td", [_vm._v(_vm._s(post.id))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(post.title))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(_vm._s(_vm._f("myDate")(post.created_at)))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.updateModal(post)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-edit blue fa-fw" })]
+                          ),
+                          _vm._v(
+                            "\n                      /\n                      "
+                          ),
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deletePost(post.id)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-trash red fa-fw" })]
+                          )
+                        ])
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ])
             ])
           ])
-        ])
-      ])
+        : _vm._e()
     ]),
     _vm._v(" "),
     _c(
@@ -82907,27 +82916,27 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container" }, [
+    _vm.$gate.isAdmin()
+      ? _c("div", { staticClass: "row justify-content-center" }, [_vm._m(0)])
+      : _vm._e()
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Dashboard Component")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an example component.\n                "
-              )
-            ])
-          ])
+    return _c("div", { staticClass: "col-md-8" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _vm._v("Dashboard Component")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _vm._v(
+            "\n                    I'm an example component.\n                "
+          )
         ])
       ])
     ])
@@ -83349,83 +83358,85 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12 mt-5" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _c("h3", { staticClass: "card-title" }, [_vm._v("Users List")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-tools" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-success",
-                  on: { click: _vm.createModal }
-                },
-                [
-                  _vm._v(" Add New\n                "),
-                  _c("i", { staticClass: "fas fa-user-plus fa-fw" })
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body table-responsive p-0" }, [
-            _c("table", { staticClass: "table table-hover" }, [
-              _vm._m(0),
+      _vm.$gate.isAdmin()
+        ? _c("div", { staticClass: "col-md-12 mt-5" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h3", { staticClass: "card-title" }, [_vm._v("Users List")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-tools" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: { click: _vm.createModal }
+                    },
+                    [
+                      _vm._v(" Add New\n                "),
+                      _c("i", { staticClass: "fas fa-user-plus fa-fw" })
+                    ]
+                  )
+                ])
+              ]),
               _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.users, function(user) {
-                  return _c("tr", { key: user.id }, [
-                    _c("td", [_vm._v(_vm._s(user.id))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(user.name))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(user.email))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(_vm._f("upText")(user.type)))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(_vm._s(_vm._f("myDate")(user.created_at)))
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "a",
-                        {
-                          attrs: { href: "#" },
-                          on: {
-                            click: function($event) {
-                              return _vm.updateModal(user)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-edit blue fa-fw" })]
-                      ),
-                      _vm._v(
-                        "\n                      /\n                      "
-                      ),
-                      _c(
-                        "a",
-                        {
-                          attrs: { href: "#" },
-                          on: {
-                            click: function($event) {
-                              return _vm.deleteUser(user.id)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-trash red fa-fw" })]
-                      )
-                    ])
-                  ])
-                }),
-                0
-              )
+              _c("div", { staticClass: "card-body table-responsive p-0" }, [
+                _c("table", { staticClass: "table table-hover" }, [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.users, function(user) {
+                      return _c("tr", { key: user.id }, [
+                        _c("td", [_vm._v(_vm._s(user.id))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.email))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(_vm._f("upText")(user.type)))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(_vm._s(_vm._f("myDate")(user.created_at)))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.updateModal(user)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-edit blue fa-fw" })]
+                          ),
+                          _vm._v(
+                            "\n                      /\n                      "
+                          ),
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteUser(user.id)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-trash red fa-fw" })]
+                          )
+                        ])
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ])
             ])
           ])
-        ])
-      ])
+        : _vm._e()
     ]),
     _vm._v(" "),
     _c(
@@ -83663,11 +83674,11 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "user" } }, [
-                              _vm._v("Standard User")
+                              _vm._v("Free User")
                             ]),
                             _vm._v(" "),
-                            _c("option", { attrs: { value: "author" } }, [
-                              _vm._v("Author")
+                            _c("option", { attrs: { value: "member" } }, [
+                              _vm._v("Premium User")
                             ])
                           ]
                         ),
@@ -83684,6 +83695,23 @@ var render = function() {
                       { staticClass: "form-group" },
                       [
                         _c("input", {
+                          staticClass: "form-control mb-3",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("password")
+                          },
+                          attrs: {
+                            type: "password",
+                            name: "password",
+                            id: "password",
+                            placeholder: "Enter Password"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "password" }
+                        }),
+                        _vm._v(" "),
+                        _c("input", {
                           directives: [
                             {
                               name: "model",
@@ -83694,13 +83722,15 @@ var render = function() {
                           ],
                           staticClass: "form-control",
                           class: {
-                            "is-invalid": _vm.form.errors.has("password")
+                            "is-invalid": _vm.form.errors.has(
+                              "confirm_password"
+                            )
                           },
                           attrs: {
                             type: "password",
-                            name: "password",
-                            id: "password",
-                            placeholder: "Enter Password"
+                            name: "confirm_password",
+                            id: "confirm_password",
+                            placeholder: "Confirm Password"
                           },
                           domProps: { value: _vm.form.password },
                           on: {
@@ -83718,7 +83748,7 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _c("has-error", {
-                          attrs: { form: _vm.form, field: "password" }
+                          attrs: { form: _vm.form, field: "confirm_password" }
                         })
                       ],
                       1
@@ -99889,6 +99919,62 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/Gate.js":
+/*!******************************!*\
+  !*** ./resources/js/Gate.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Gate; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Gate =
+/*#__PURE__*/
+function () {
+  function Gate(user) {
+    _classCallCheck(this, Gate);
+
+    this.user = user;
+  }
+
+  _createClass(Gate, [{
+    key: "isAdmin",
+    value: function isAdmin() {
+      return this.user.type === 'admin';
+    }
+  }, {
+    key: "isMember",
+    value: function isMember() {
+      return this.user.type === 'member';
+    }
+  }, {
+    key: "isUser",
+    value: function isUser() {
+      return this.user.type === 'user';
+    }
+  }, {
+    key: "isAdminOrMember",
+    value: function isAdminOrMember() {
+      if (this.user.type === 'admin' || this.user.type === 'member') {
+        return true;
+      }
+    }
+  }]);
+
+  return Gate;
+}();
+
+
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -99908,13 +99994,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Comments_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Comments.vue */ "./resources/js/components/Comments.vue");
 /* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vform */ "./node_modules/vform/dist/vform.common.js");
 /* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vform__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-progressbar */ "./node_modules/vue-progressbar/dist/vue-progressbar.js");
-/* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(vue_progressbar__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
+/* harmony import */ var _Gate__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Gate */ "./resources/js/Gate.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vue-progressbar */ "./node_modules/vue-progressbar/dist/vue-progressbar.js");
+/* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(vue_progressbar__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
 /**
 * First we will load all of this project's JavaScript dependencies which
 * includes Vue and other libraries. It is a great starting point when
@@ -99952,11 +100039,14 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 
 window.Form = vform__WEBPACK_IMPORTED_MODULE_7__["Form"];
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component(vform__WEBPACK_IMPORTED_MODULE_7__["HasError"].name, vform__WEBPACK_IMPORTED_MODULE_7__["HasError"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component(vform__WEBPACK_IMPORTED_MODULE_7__["AlertError"].name, vform__WEBPACK_IMPORTED_MODULE_7__["AlertError"]); //using sweet-alerts2
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component(vform__WEBPACK_IMPORTED_MODULE_7__["AlertError"].name, vform__WEBPACK_IMPORTED_MODULE_7__["AlertError"]); //custome Gate for ACL
 
 
-window.Swal = sweetalert2__WEBPACK_IMPORTED_MODULE_8___default.a;
-var Toast = sweetalert2__WEBPACK_IMPORTED_MODULE_8___default.a.mixin({
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$gate = new _Gate__WEBPACK_IMPORTED_MODULE_8__["default"](window.user); //using sweet-alerts2
+
+
+window.Swal = sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a;
+var Toast = sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.mixin({
   toast: true,
   position: 'top-end',
   showConfirmButton: false,
@@ -99970,11 +100060,11 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter('upText', function (text) {
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter('myDate', function (date) {
-  return moment__WEBPACK_IMPORTED_MODULE_9___default()(date).format("MMM Do YYYY");
+  return moment__WEBPACK_IMPORTED_MODULE_10___default()(date).format("MMM Do YYYY");
 }); //using vue progress-bar
 
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_10___default.a, {
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_11___default.a, {
   color: 'rgb(143, 255, 199)',
   failedColor: 'red',
   height: '3px'
@@ -99983,7 +100073,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_progressbar__WEBPACK_IMPORTED
 window.Fire = new vue__WEBPACK_IMPORTED_MODULE_0___default.a(); //vee validate
 
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vee_validate__WEBPACK_IMPORTED_MODULE_11__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vee_validate__WEBPACK_IMPORTED_MODULE_12__["default"]);
 /**
 * The following block of code may be used to automatically register your
 * Vue components. It will recursively scan this directory for the Vue
