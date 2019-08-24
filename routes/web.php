@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PostController@all');
 
 Auth::routes();
 
@@ -27,5 +25,7 @@ Route::get('/{post}/comments', 'CommentController@index');
 Route::post('/{post}/comments', 'CommentController@store');
 
 
+//serch
+Route::any('/search', 'PostController@search');
 
 Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d-\/_.]+)?' );

@@ -2,9 +2,22 @@
 
     @section('content')
     <div class="container">
+      <div class="col-md-4 col-sm-6">
+      <form action="/search" method="POST" role="search">
+          {{ csrf_field() }}
+          <div class="input-group">
+              <input type="text" class="form-control" name="q"
+                  placeholder="Search users"> <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default">
+                  <i class="fas fa-search"></i>
+                  </button>
+              </span>
+          </div>
+      </form>
+      </div>
       <div class="row align-items-center">
         <div class="col-md-8 mx-auto">
-          <h1 class="my-4 text-center"> Myanmar Links </h1>
+          <h1 class="my-4 text-center"><strong> Myanmar Links </strong></h1>
 
           @foreach ($posts as $post)
           <div class="card card-widget mb-4">
@@ -17,7 +30,7 @@
               </div>
               <!-- /.card-header -->
               <div>
-                <div class="mt-3" style="text-align: center"><h2><b>{{ $post->title }}</b></h2></div>
+                <div class="mt-3" style="text-align: center"><h2>{{ $post->title }}</h2></div>
                 <hr>
                 <div class="container d-flex justify-content-center">
                 <img class="img-fluid pad mb-3" src="{!! !empty($post->image) ? '/storage/images/post-img/' . $post->image :  '' !!}">

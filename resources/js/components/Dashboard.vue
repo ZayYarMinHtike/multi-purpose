@@ -1,5 +1,8 @@
 <template>
     <div class="container">
+        <div v-if="!$gate.isAdmin()">
+          <Not-found></Not-found>
+        </div>
         <div class="row justify-content-center" v-if="$gate.isAdmin()">
             <div class="col-md-8">
                 <div class="card">

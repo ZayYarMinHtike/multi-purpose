@@ -1,6 +1,9 @@
 <template>
     <div class="container">
       <div class="row">
+        <div v-if="!$gate.isAdminOrMember()">
+              <Not-found></Not-found>
+        </div>
         <div class="col-md-12 mt-5" v-if="$gate.isAdminOrMember()">
             <div class="card">
               <div class="card-header">
@@ -24,7 +27,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="post in posts" :key = "post.id">
+                    <tr v-for="post in posts.data" :key = "post.id">
                       <td>{{post.id}}</td>
                       <td>{{post.title}}</td>
                       <td>{{post.created_at | myDate }}</td>
@@ -42,6 +45,12 @@
                 </table>
               </div>
               <!-- /.card-body -->
+              <div class="card-footer">
+                  <pagination :data="posts" @pagination-change-page="getResults">
+                    <span slot="prev-nav">&lt; Previous</span>
+	                  <span slot="next-nav">Next &gt;</span>
+                  </pagination>
+              </div>
             </div>
             <!-- /.card -->
           </div>
@@ -69,13 +78,10 @@
                     </div>
 
                     <div class="custom-file mb-3">
-                      <img class="img-fluid img-md" :src="loadImg()" alt="add-image">
-                      <div class="img-push">
                         <label for="image" class="control-label">Post Image</label>
                         <br>
                         <input type="file"  @change="postImage" ref="image" name="image"  id="image" required>
-                      </div>
-                    </div>
+                    </div>                 
                 </div>
                 <div class="modal-footer">
                     <button type="submit" @click.prevent="createPost" class="btn btn-primary block">
@@ -113,13 +119,10 @@
                         <has-error :form="form" field="email"></has-error>
                     </div>
                     
-                    <div class="form-group">
-                       <img class="img-fluid img-md" :src="loadImg()" alt="post-image">
-                          <div class="img-push">
+                    <div class="form-group">                   
                             <label for="image" class="control-label">Post Image</label>
                             <div>
                             <input type="file" @change="postImage" id="image" name="image" class="form-input">
-                            </div>
                           </div>  
                     </div>
 
@@ -157,11 +160,18 @@
         },
 
         methods: {
+            getResults(page = 1) {
+              axios.get('api/post?page=' + page)
+                .then(response => {
+                  this.posts = response.data;
+                });
+            },
+
             //modals
             createModal() {
               this.editmode = false;
-              this.form.reset();
               $('#AddnewModal').modal('show');
+              this.form.reset();
             },
 
             updateModal(post) {
@@ -223,12 +233,6 @@
                 }
             },
 
-            loadImg() {
-
-                  let image = (this.form.image.length > 200) ? this.form.image : "/storage/images/dummy/dummy.jpg" ;
-                  return image;
-            },
-
             //update
             updatePost() {
                  this.$Progress.start();
@@ -252,7 +256,7 @@
             //load
             loadPosts() {
               if(this.$gate.isAdminOrMember()) {
-                axios.get('api/post').then(({ data }) => (this.posts = data.data));
+                axios.get('api/post').then(({ data }) => (this.posts = data));
               }
               
             },
@@ -286,6 +290,17 @@
             }
         },
         created() {
+            Fire.$on('searching',() => {
+                let query = this.$parent.search;
+                axios.get('api/findPost?q=' + query)
+                .then((data) => {
+                    this.posts = data.data
+                })
+                .catch(() => {
+
+                })
+            })
+
             this.loadPosts();
             //listen custom event
             Fire.$on('hasEvent', () => {

@@ -18,10 +18,9 @@ import Profile from './components/Profile.vue'
 import Users from './components/Users.vue'
 import Blog from './components/Blog.vue'
 import Comments from './components/Comments.vue'
+import Notfound from './components/Notfound.vue'
 
-
-
-let routes = [
+const routes = [
 
     { path: '/dashboard',
      component: Dashboard 
@@ -37,6 +36,10 @@ let routes = [
     
     { path: '/blog',
       component: Blog,
+    },
+
+    { path: '/*',
+      component: Notfound,
     },
 ]
 
@@ -110,23 +113,14 @@ Vue.use(VeeValidate);
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('Not-found', require('./components/Notfound.vue').default);
 
-//vue api component
-Vue.component(
-    'passport-clients',
-    require('./components/passport/Clients.vue').default
-);
 
-Vue.component(
-    'passport-authorized-clients',
-    require('./components/passport/AuthorizedClients.vue').default
-);
+//laravel-vue pagination
+Vue.component('pagination', require('laravel-vue-pagination'));
 
-Vue.component(
-    'passport-personal-access-tokens',
-    require('./components/passport/PersonalAccessTokens.vue').default
-);
+
+
 /**
 * Next, we will create a fresh Vue application instance and attach it to
 * the page. Then, you may begin adding components to this application
@@ -136,4 +130,12 @@ Vue.component(
 const app = new Vue({
     router,
     components: { Comments },
+    data: {
+        search: ''
+    },
+    methods:{
+        searchit: _.debounce(() => {
+            Fire.$emit('searching');
+        },1000),
+    }
 }).$mount('#app');

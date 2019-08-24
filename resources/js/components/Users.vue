@@ -1,6 +1,9 @@
 <template>
     <div class="container">
       <div class="row">
+        <div v-if="!$gate.isAdmin()">
+          <Not-found></Not-found>
+        </div>
         <div class="col-md-12 mt-5" v-if="$gate.isAdmin()">
             <div class="card">
               <div class="card-header">
@@ -26,7 +29,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="user in users" :key = "user.id">
+                    <tr v-for="user in users.data" :key = "user.id">
                       <td>{{user.id}}</td>
                       <td>{{user.name}}</td>
                       <td>{{user.email}}</td>
@@ -46,6 +49,12 @@
                 </table>
               </div>
               <!-- /.card-body -->
+              <div class="card-footer">
+                  <pagination :data="users" @pagination-change-page="getResults">
+                    <span slot="prev-nav">&lt; Previous</span>
+	                  <span slot="next-nav">Next &gt;</span>
+                  </pagination>
+              </div>
             </div>
             <!-- /.card -->
           </div>
@@ -138,8 +147,19 @@
             })
           }
         },
+        mounted() {
+          // Fetch initial results
+          this.getResults();
+        },
 
         methods: {
+            getResults(page = 1) {
+              axios.get('api/user?page=' + page)
+                .then(response => {
+                  this.users = response.data;
+                });
+            },
+
             //modals
             createModal() {
               this.editmode = false;
@@ -200,7 +220,7 @@
             //load
             loadUsers() {
               if(this.$gate.isAdmin) {
-                  axios.get('api/user').then(({ data }) => (this.users = data.data));
+                  axios.get('api/user').then(({ data }) => (this.users = data));
               }   
             },
 
@@ -233,7 +253,19 @@
             }
         },
         created() {
+             Fire.$on('searching',() => {
+                let query = this.$parent.search;
+                axios.get('api/findUser?q=' + query)
+                .then((data) => {
+                    this.users = data.data
+                })
+                .catch(() => {
+
+                })
+            })
+
             this.loadUsers();
+            
             //listen custom event
             Fire.$on('hasEvent', () => {
               this.loadUsers();

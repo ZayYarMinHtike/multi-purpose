@@ -20,8 +20,12 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return Post::latest()->paginate(10);
+    {   if(auth('api')->user()->type == 'admin') {
+            return Post::latest()->paginate(5);
+        }else{
+            $userId = auth('api')->user()->id;
+            return Post::where('user_id', [$userId])->latest()->paginate(5); 
+        }    
     }
 
     /**
@@ -122,5 +126,20 @@ class PostController extends Controller
 
         $post->comments()->delete();
         $post->delete();
+    }
+
+
+    public function search(){
+
+        if ($search = \Request::get('q')) {
+            $posts = Post::where(function($query) use ($search){
+                $query->where('title','LIKE',"%$search%");            
+            })->paginate(10);
+        }else{
+            $posts = Post::latest()->paginate(5);
+        }
+
+        return $posts;
+
     }
 }

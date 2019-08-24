@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::latest()->paginate(7);
+        return User::latest()->paginate(5);
     }
 
     /**
@@ -144,5 +144,22 @@ class UserController extends Controller
         $user->posts()->delete();
         $user->comments()->delete();
         $user->delete();
+    }
+
+
+
+    public function search(){
+
+        if ($search = \Request::get('q')) {
+            $users = User::where(function($query) use ($search){
+                $query->where('name','LIKE',"%$search%")
+                        ->orWhere('email','LIKE',"%$search%");
+            })->paginate(10);
+        }else{
+            $users = User::latest()->paginate(5);
+        }
+
+        return $users;
+
     }
 }

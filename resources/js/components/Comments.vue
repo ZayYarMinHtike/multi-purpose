@@ -4,7 +4,7 @@
             <div class="mb-3">
             <img class="img-fluid img-circle img-md" :src="getprofilePic()" alt="Alt Text">
             <div class="img-push d-flex">
-              <textarea type="text" ref="body" class="form-control ml-3" placeholder="Press enter to post comment"></textarea>
+              <textarea type="text" ref="body" @keyup.enter="addComment" class="form-control ml-3" placeholder="Press enter to post comment"></textarea>
               <button type="submit" @click.prevent="addComment" class="btn ml-2 btn-primary">
               Submit
               </button>
