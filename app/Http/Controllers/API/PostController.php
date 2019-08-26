@@ -142,4 +142,14 @@ class PostController extends Controller
         return $posts;
 
     }
+
+    public function count() {
+        $posts = Post::all();
+
+        $PostsCount = [
+            'posts_count' => $posts->count()
+        ];
+
+        return $PostsCount;
+    }
 }

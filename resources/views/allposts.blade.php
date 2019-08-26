@@ -7,7 +7,7 @@
           {{ csrf_field() }}
           <div class="input-group">
               <input type="text" class="form-control" name="q"
-                  placeholder="Search users"> <span class="input-group-btn">
+                  placeholder="Search Posts"> <span class="input-group-btn">
                   <button type="submit" class="btn btn-default">
                   <i class="fas fa-search"></i>
                   </button>
@@ -23,7 +23,7 @@
           <div class="card card-widget mb-4">
               <div class="card-header">
                 <div class="user-block">
-                  <img class="img-circle" src="{!! !empty($post->user->photo) ? '/storage/images/profile-uploads/' . $post->user->photo :  '' !!}">
+                  <img class="img-circle" src="{!! ($post->user->photo == 'profile.png') ? '/storage/images/dummy/dummy-profile.png' : '/storage/images/profile-uploads/' . $post->user->photo !!}">
                   <span class="username"><a href="#">{{ $post->user->name }}</a></span>
                   <span class="description">Posted - {{ $post->created_at->diffForHumans() }}</span>
                 </div>
@@ -55,7 +55,7 @@
             </div>
             <!-- /.card -->
           @endforeach
-
+          {{ $posts->links() }}
         </div>
       </div>
     </div>

@@ -14,6 +14,7 @@ class PostController extends Controller
         return view('allposts', [
             'posts' => Post::latest()->paginate(5)
         ]);
+        
     }
     
     public function single(Post $post)
@@ -33,4 +34,5 @@ class PostController extends Controller
             return view('nopost');
         }
     }
+
 }

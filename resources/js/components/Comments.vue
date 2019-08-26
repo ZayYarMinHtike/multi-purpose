@@ -12,7 +12,7 @@
             </div>
             <div>
               <div class="border p-2" v-for="comment in comments" >
-                <img class="img-fluid img-circle img-sm" :src="comPic()+comment.user.photo" alt="Alt Text">
+                <img class="img-fluid img-circle img-sm"  :src="comPic()+comment.user.photo" alt="Alt Text">
                 <div class="img-push">
                 <strong>{{ comment.user.name }} </strong>::<span> {{ comment.created_at | myDate }}</span>
                 <br>
@@ -48,7 +48,11 @@
 
       methods: {
         getprofilePic() {
-            return '/storage/images/profile-uploads/'+this.userPhoto;
+            if(this.userPhoto == 'profile.png') {
+              return '/storage/images/dummy/dummy-profile.png'
+            }else {
+              return '/storage/images/profile-uploads/'+this.userPhoto;
+            }   
         },
 
         comPic() {

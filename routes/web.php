@@ -18,11 +18,17 @@ Auth::routes();
 Route::get('/posts', 'PostController@all');
 Route::get('/posts/{post}', 'PostController@single');
 
+Route::get('/member', 'HomeController@member');
 Route::get('/home', 'HomeController@index')->name('home');
+
 
 
 Route::get('/{post}/comments', 'CommentController@index');
 Route::post('/{post}/comments', 'CommentController@store');
+
+//simple payment gate way with stripe
+Route::get('/stripe', 'StripePaymentController@stripe');
+Route::post('/stripe', 'StripePaymentController@stripePost')->name('stripe.post');
 
 
 //serch

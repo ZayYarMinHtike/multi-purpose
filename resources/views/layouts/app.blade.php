@@ -55,16 +55,25 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/posts">
+                                        {{ __('Home') }}
+                                    </a>
                                     @if(auth()->user()->type != 'user')
                                     <a class="dropdown-item" href="/blog">
-                                        {{ __('My Blog') }}
+                                        {{ __('Blog') }}
+                                    </a>
+                                    <a class="dropdown-item" href="/member">
+                                        {{ __('Membership') }}
                                     </a>
                                     @endif
                                     @if(auth()->user()->type == 'user')
                                     <a class="dropdown-item" href="/profile">
-                                        {{ __('My Profile') }}
+                                        {{ __('Profile') }}
                                     </a>
                                     @endif
+                                    <a class="dropdown-item" href="/stripe">
+                                        {{ __('Support Us') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

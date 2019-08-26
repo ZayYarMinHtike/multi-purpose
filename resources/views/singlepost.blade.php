@@ -5,7 +5,7 @@
       <div class="row">
        <div class="col-md-10 mx-auto">
         <div class="d-flex mb-5">
-        <img style="max-height: 100px; max-width: 100px;" class="img-circle mt-3 mr-3" src="{!! !empty($post->user->photo) ? '/storage/images/profile-uploads/' . $post->user->photo :  '' !!}">
+        <img style="max-height: 100px; max-width: 100px;" class="img-circle mt-3 mr-3" src="{!! ($post->user->photo == 'profile.png') ? '/storage/images/dummy/dummy-profile.png' : '/storage/images/profile-uploads/' . $post->user->photo !!}">
         <div>
           <h3 class="mt-4">{{ $post->title }} <span class="lead"> by <a href="#"> {{ $post->user->name }} </a></span> </h3>
           <p>Posted - {{ $post->created_at->diffForHumans() }}</p>

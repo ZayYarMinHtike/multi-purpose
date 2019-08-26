@@ -2077,7 +2077,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: {
     getprofilePic: function getprofilePic() {
-      return '/storage/images/profile-uploads/' + this.userPhoto;
+      if (this.userPhoto == 'profile.png') {
+        return '/storage/images/dummy/dummy-profile.png';
+      } else {
+        return '/storage/images/profile-uploads/' + this.userPhoto;
+      }
     },
     comPic: function comPic() {
       return '/storage/images/profile-uploads/';
@@ -2163,9 +2167,85 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  data: function data() {
+    return {
+      userscount: [],
+      postscount: []
+    };
+  },
+  methods: {
+    loadUsersCount: function loadUsersCount() {
+      var _this = this;
+
+      axios.get('api/userscount').then(function (_ref) {
+        var data = _ref.data;
+        _this.userscount = data.users_count;
+      });
+    },
+    loadPostsCount: function loadPostsCount() {
+      var _this2 = this;
+
+      axios.get('api/postscount').then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.postscount = data.posts_count;
+      });
+    }
+  },
+  created: function created() {
+    this.loadUsersCount();
+    this.loadPostsCount();
   }
 });
 
@@ -82851,7 +82931,39 @@ var render = function() {
     !_vm.$gate.isAdmin() ? _c("div", [_c("Not-found")], 1) : _vm._e(),
     _vm._v(" "),
     _vm.$gate.isAdmin()
-      ? _c("div", { staticClass: "row justify-content-center" }, [_vm._m(0)])
+      ? _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-lg-3 col-xs-6  mt-5" }, [
+            _c("div", { staticClass: "small-box bg-teal" }, [
+              _c("div", { staticClass: "inner" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("p", [_vm._v(_vm._s(this.userscount))])
+              ]),
+              _vm._v(" "),
+              _vm._m(1),
+              _vm._v(" "),
+              _vm._m(2)
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-lg-3 col-xs-6  mt-5" }, [
+            _c("div", { staticClass: "small-box bg-cyan" }, [
+              _c("div", { staticClass: "inner" }, [
+                _vm._m(3),
+                _vm._v(" "),
+                _c("p", [_vm._v(_vm._s(this.postscount))])
+              ]),
+              _vm._v(" "),
+              _vm._m(4),
+              _vm._v(" "),
+              _vm._m(5)
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(6),
+          _vm._v(" "),
+          _vm._m(7)
+        ])
       : _vm._e()
   ])
 }
@@ -82860,17 +82972,95 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-8" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-header" }, [
-          _vm._v("Dashboard Component")
+    return _c("i", [_c("h4", [_vm._v("Users")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fas fa-users" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "small-box-footer", attrs: { href: "/users" } },
+      [_c("i", { staticClass: "fa fa-arrow-circle-right" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("i", [_c("h4", [_vm._v("Blog")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fas fa-blog" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "small-box-footer", attrs: { href: "/blog" } },
+      [_c("i", { staticClass: "fa fa-arrow-circle-right" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-lg-3 col-xs-6  mt-5" }, [
+      _c("div", { staticClass: "small-box bg-orange" }, [
+        _c("div", { staticClass: "inner" }, [
+          _c("i", [_c("h4", [_vm._v("Profile")])]),
+          _vm._v(" "),
+          _c("p", [_vm._v("edit profile")])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _vm._v(
-            "\n                    I'm an example component.\n                "
-          )
-        ])
+        _c("div", { staticClass: "icon" }, [
+          _c("i", { staticClass: "fas fa-user" })
+        ]),
+        _vm._v(" "),
+        _c(
+          "a",
+          { staticClass: "small-box-footer", attrs: { href: "/profile" } },
+          [_c("i", { staticClass: "fa fa-arrow-circle-right" })]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-lg-3 col-xs-6  mt-5" }, [
+      _c("div", { staticClass: "small-box bg-pink" }, [
+        _c("div", { staticClass: "inner" }, [
+          _c("i", [_c("h4", [_vm._v("Home")])]),
+          _vm._v(" "),
+          _c("p", [_vm._v("view posts")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "icon" }, [
+          _c("i", { staticClass: "fas fa-home" })
+        ]),
+        _vm._v(" "),
+        _c(
+          "a",
+          { staticClass: "small-box-footer", attrs: { href: "/posts" } },
+          [_c("i", { staticClass: "fa fa-arrow-circle-right" })]
+        )
       ])
     ])
   }
@@ -100718,7 +100908,10 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   methods: {
     searchit: _.debounce(function () {
       Fire.$emit('searching');
-    }, 1000)
+    }, 1000),
+    printme: function printme() {
+      window.print();
+    }
   }
 }).$mount('#app');
 

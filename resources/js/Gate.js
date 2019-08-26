@@ -21,7 +21,6 @@ export default class Gate{
         if(this.user.type === 'admin' || this.user.type === 'member'){
             return true;
         }
-
     }
 
 }

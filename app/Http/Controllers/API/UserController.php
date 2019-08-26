@@ -45,7 +45,7 @@ class UserController extends Controller
             'email' => $request['email'],
             'type' => $request['type'],
             'bio' => $request['bio'],
-            'photo' => $request['photo'],
+            'photo' => 'profile.png',
             'password' => Hash::make($request['password'])
         ]);
     }
@@ -80,10 +80,6 @@ class UserController extends Controller
                     \Image::make($request->photo)->save(storage_path('app/public/images/profile-uploads/').$name);
                     $request->merge(['photo' => $name]);
 
-                    $oldPhoto = storage_path('app/public/images/profile-uploads/').$currentPhoto;
-                    if(file_exists($oldPhoto)) {
-                        @unlink($oldPhoto);
-                    }
             }
 
             if(!empty($request->password)){
@@ -161,5 +157,15 @@ class UserController extends Controller
 
         return $users;
 
+    }
+
+    public function count() {
+        $users = User::all();
+
+        $UsersCount = [
+            'users_count' => $users->count()
+        ];
+
+        return $UsersCount;
     }
 }
